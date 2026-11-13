@@ -1,6 +1,6 @@
 # EntradaSegura — entradas NFT anti-falsificación para eventos masivos
 
-> Trabajo Final — Blockchain/Web3. Equipo: _completar integrantes_.
+> Trabajo Final — Blockchain/Web3. Equipo: Nicolás Montenegro y Fabio Colman.
 
 ## 1. El problema
 
