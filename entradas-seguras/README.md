@@ -61,8 +61,8 @@ Una base de datos central podría guardar lo mismo, pero obligaría a confiar en
 Requisitos: Node 18+ y Git.
 
 ```bash
-git clone <URL_DEL_REPO>
-cd entrada-segura
+git clone https://github.com/pachenico-pixel/Entrada-Segura.git
+cd Entrada-Segura
 npm install
 cp .env.example .env     # completar variables (ver abajo)
 npx hardhat compile
@@ -113,30 +113,39 @@ npm run frontend                                   # abre http://localhost:3000
 En MetaMask agregá la red `http://127.0.0.1:8545` (chainId 31337) e importá una cuenta del nodo (la primera ya tiene todos los roles).
 
 ### Sepolia
-1. Completar `.env` (RPC, clave **de una wallet de prueba**, API key de Etherscan).
+1. Completar `.env` con `SEPOLIA_RPC_URL`, `PRIVATE_KEY` (**de una wallet de prueba**) y `ETHERSCAN_API_KEY`. La wallet necesita ETH de Sepolia (se consigue en un faucet).
 2. `npm run deploy:sepolia` — despliega, otorga roles al deployer, intenta verificar y escribe `deployments/sepolia.json` y `frontend/config.js`.
 3. `npm run demo:sepolia` — ejecuta el flujo real on-chain e imprime los hashes.
 4. Si la verificación automática falla: `npx hardhat verify --network sepolia <address> <args>` (los argumentos están en `scripts/deploy.js`).
-5. Completar las secciones 8 y 9 de este README con direcciones, URLs y hashes.
+
+Los resultados de este despliegue están en las secciones 8 y 9.
 
 ### Frontend
-Sitio estático sin build (HTML + ethers v6). Pestañas: **Hinchas** (verificar entrada sin billetera, comprar, mostrar pase QR, regalar, revender, reembolso), **Organizador** (crear/cancelar eventos, retirar fondos, otorgar roles) y **Acceso** (pegar el pase y registrar ingreso). Para publicarlo: subir la carpeta `frontend/` a Vercel o Netlify (opcional).
+Sitio estático sin build (HTML + ethers v6). Pestañas: **Hinchas** (verificar entrada sin billetera, comprar, mostrar pase QR, regalar, revender, reembolso), **Organizador** (crear/cancelar eventos, retirar fondos, otorgar roles) y **Acceso** (pegar el pase y registrar ingreso). Para correrlo: `npm run frontend`. El archivo `frontend/config.js` se genera en cada deploy: tras `npm run deploy:sepolia` queda apuntando a los contratos de la sección 8, y para operar hay que conectar MetaMask a la red Sepolia. Publicarlo en Vercel o Netlify (subiendo la carpeta `frontend/`) es opcional.
 
-## 8. Despliegue (COMPLETAR tras deploy en Sepolia)
+## 8. Despliegue en Sepolia
+
+Red: Sepolia (chainId 11155111). Bloque de despliegue: 12129160.
 
 | Contrato | Dirección | Código verificado |
 |---|---|---|
-| MockUSDC | `0x…` | `https://sepolia.etherscan.io/address/0x…#code` |
-| EventTicketing | `0x…` | `https://sepolia.etherscan.io/address/0x…#code` |
-| TicketNFT | `0x…` | `https://sepolia.etherscan.io/address/0x…#code` |
+| MockUSDC | `0x80326c266bC0D62fb9B27ca01921Fe3a983E42da` | [Ver en Etherscan](https://sepolia.etherscan.io/address/0x80326c266bC0D62fb9B27ca01921Fe3a983E42da#code) |
+| EventTicketing | `0xcfd9C1A9f6C1B1F88Cded53e81f23a8f0bcFeED4` | [Ver en Etherscan](https://sepolia.etherscan.io/address/0xcfd9C1A9f6C1B1F88Cded53e81f23a8f0bcFeED4#code) |
+| TicketNFT | `0x17feD29d5CCA8B6B59EfCEF084D60c25da91061f` | [Ver en Etherscan](https://sepolia.etherscan.io/address/0x17feD29d5CCA8B6B59EfCEF084D60c25da91061f#code) |
 
-## 9. Transacciones reales del flujo principal (COMPLETAR)
+## 9. Transacciones reales del flujo principal (Sepolia)
+
+Generadas con `npm run demo:sepolia` sobre los contratos de la sección 8:
 
 | Paso | Hash |
 |---|---|
-| createEvent | `0x…` |
-| buyTickets | `0x…` |
-| checkIn | `0x…` |
+| createEvent | [`0xae7b49826dd87f58261c8ef451474267eacb5b3b78b36d0cc39386eb96a4e3e5`](https://sepolia.etherscan.io/tx/0xae7b49826dd87f58261c8ef451474267eacb5b3b78b36d0cc39386eb96a4e3e5) |
+| buyTickets (x2) | [`0xffb15cde3d782456150528f082fa303546f5e0e3e895953f5eb6379d465dbe2e`](https://sepolia.etherscan.io/tx/0xffb15cde3d782456150528f082fa303546f5e0e3e895953f5eb6379d465dbe2e) |
+| listForResale | [`0x47cb24532085e1a4621c404171e1cb62d5c5eb63ce2c9f48c9ae4f83a9b97812`](https://sepolia.etherscan.io/tx/0x47cb24532085e1a4621c404171e1cb62d5c5eb63ce2c9f48c9ae4f83a9b97812) |
+| cancelListing | [`0xcfd64dd4af83bb4286a3b2769f52a4276ffe1c62d9256456875c9091d64b001a`](https://sepolia.etherscan.io/tx/0xcfd64dd4af83bb4286a3b2769f52a4276ffe1c62d9256456875c9091d64b001a) |
+| checkIn | [`0x428948b9bb92160c79fd72c570a55b57f141672d91a0b2982b80c1db9b2e6d1f`](https://sepolia.etherscan.io/tx/0x428948b9bb92160c79fd72c570a55b57f141672d91a0b2982b80c1db9b2e6d1f) |
+
+Al reintentar el `checkIn` de la misma entrada, el contrato revierte con el error `TicketAlreadyUsed` (verificado con `staticCall` en `scripts/demo.js`). Estado final de la entrada #1: `usada = true`.
 
 ## 10. Limitaciones conocidas del MVP
 - El pase de ingreso lo firma el titular con su billetera (cada pase dura 5 min); en producción se usaría una *session key* o una app con QR rotativo automático.
@@ -162,7 +171,13 @@ Sitio estático sin build (HTML + ethers v6). Pestañas: **Hinchas** (verificar 
 - Despliegue en un L2 (Base/Arbitrum/Optimism) para costos mínimos; indexación con The Graph.
 - Identidad (KYC liviano / prueba de humanidad) para limitar compras múltiples con billeteras distintas.
 
-## 12. Estructura
+## 12. Video de presentación y demo
+
+Duración: máximo 5 minutos.
+
+**Enlace al video:** _completar con el link (YouTube, Drive u otro)_
+
+## 13. Estructura
 ```
 contracts/   EventTicketing.sol, TicketNFT.sol, mocks/MockUSDC.sol  (NatSpec completo)
 test/        EventTicketing.test.js
