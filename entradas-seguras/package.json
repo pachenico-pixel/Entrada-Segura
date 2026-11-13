@@ -1,0 +1,25 @@
+{
+  "name": "entrada-segura",
+  "version": "1.0.0",
+  "description": "Entradas NFT anti-falsificacion para eventos masivos",
+  "scripts": {
+    "compile": "hardhat compile",
+    "test": "hardhat test",
+    "coverage": "hardhat coverage",
+    "node": "hardhat node",
+    "deploy:local": "hardhat run scripts/deploy.js --network localhost",
+    "demo:local": "hardhat run scripts/demo.js --network localhost",
+    "deploy:sepolia": "hardhat run scripts/deploy.js --network sepolia",
+    "demo:sepolia": "hardhat run scripts/demo.js --network sepolia",
+    "slither": "slither . --filter-paths \"node_modules|mocks\"",
+    "frontend": "npx serve frontend"
+  },
+  "license": "MIT",
+  "devDependencies": {
+    "@nomicfoundation/hardhat-toolbox": "^5.0.0",
+    "@openzeppelin/contracts": "^5.6.1",
+    "dotenv": "^18.0.9",
+    "hardhat": "^2.29.1",
+    "solc": "^0.8.28"
+  }
+}

@@ -1,0 +1,73 @@
+:root{
+  --bg:#E8EDF2; --surface:#FFFFFF; --ink:#0B1A2C; --muted:#52627A; --line:#C9D3DF;
+  --sky:#2F8FE0; --sky-ink:#0A4F8F; --ok:#14804F; --ok-bg:#DDF3E7; --bad:#B3261E; --bad-bg:#FBE3E1; --warn-bg:#FFF1CC;
+}
+*{box-sizing:border-box}
+html{font-family:"Archivo",system-ui,sans-serif;color:var(--ink);background:var(--bg);line-height:1.5}
+body{margin:0}
+h1,h2,h3{font-stretch:112%;line-height:1.1;margin:0 0 .6rem;letter-spacing:-.01em}
+h1{font-size:clamp(2rem,5vw,3.4rem);font-weight:800}
+h2{font-size:1.3rem;font-weight:750;margin-top:1.8rem}
+.muted{color:var(--muted);margin:.2rem 0 .8rem}
+.lead{font-size:1.1rem;max-width:56ch;color:var(--muted)}
+.top{display:flex;gap:1rem;align-items:center;justify-content:space-between;flex-wrap:wrap;padding:.9rem 1.4rem;background:var(--ink);color:#fff}
+.brand{font-weight:800;font-stretch:118%;font-size:1.15rem}
+.tabs{display:flex;gap:.25rem}
+.tab{background:none;border:0;color:#B9C7D8;font:inherit;font-weight:600;padding:.5rem .9rem;border-radius:.4rem;cursor:pointer}
+.tab.active{background:#fff;color:var(--ink)}
+.wallet{display:flex;gap:.6rem;align-items:center}
+.net{font-size:.85rem;background:#1c3350;padding:.25rem .6rem;border-radius:.4rem}
+.btn{font:inherit;font-weight:650;border:1.5px solid var(--ink);background:var(--surface);color:var(--ink);padding:.55rem 1rem;border-radius:.4rem;cursor:pointer}
+.btn:hover{background:#f2f6fa}
+.btn.primary{background:var(--sky);border-color:var(--sky);color:#fff}
+.btn.primary:hover{background:var(--sky-ink);border-color:var(--sky-ink)}
+.btn.small{padding:.3rem .65rem;font-size:.9rem}
+.btn:disabled{opacity:.5;cursor:not-allowed}
+.top .btn{border-color:#fff}
+:focus-visible{outline:3px solid var(--sky);outline-offset:2px}
+main{max-width:1100px;margin:0 auto;padding:1.5rem 1.2rem 4rem}
+.panel{display:none}.panel.active{display:block}
+.hero{padding:1.5rem 0 1rem}
+.verify{margin-top:1.4rem;max-width:30rem}
+.verify label,.form label{display:block;font-weight:650;font-size:.95rem;margin-bottom:.3rem}
+.row{display:flex;gap:.5rem;flex-wrap:wrap}
+input,select,textarea{font:inherit;width:100%;padding:.55rem .7rem;border:1.5px solid var(--line);border-radius:.4rem;background:#fff;color:var(--ink)}
+.row input{flex:1;min-width:8rem}
+textarea{resize:vertical}
+.form{display:grid;gap:.9rem;max-width:30rem}
+.cols{display:grid;grid-template-columns:1fr 1fr;gap:2rem}
+.narrow{max-width:36rem}
+.between{display:flex;justify-content:space-between;align-items:end;gap:.5rem}
+.stack{display:grid;gap:.9rem}
+.verdict{margin-top:1rem;padding:.9rem 1rem;border-radius:.5rem;font-weight:600;max-width:34rem}
+.verdict.ok{background:var(--ok-bg);color:var(--ok)}
+.verdict.bad{background:var(--bad-bg);color:var(--bad)}
+.verdict.warn{background:var(--warn-bg);color:#7a5a00}
+.verdict small{display:block;font-weight:450;color:inherit;opacity:.9;word-break:break-all}
+
+/* La entrada: pieza central del diseño. Cuerpo + talón separados por perforado. */
+.ticket{display:grid;grid-template-columns:1fr auto;background:var(--surface);border-radius:.6rem;position:relative;
+  filter:drop-shadow(0 1px 0 var(--line))}
+.ticket .body{padding:1rem 1.1rem}
+.ticket .stub{padding:1rem;border-left:2px dashed var(--line);display:flex;flex-direction:column;justify-content:center;align-items:center;gap:.4rem;min-width:7.5rem;text-align:center}
+.ticket::before,.ticket::after{content:"";position:absolute;right:calc(7.5rem - .55rem);width:1.1rem;height:1.1rem;border-radius:50%;background:var(--bg)}
+.ticket::before{top:-.55rem}.ticket::after{bottom:-.55rem}
+.ticket h3{font-size:1.05rem;margin:0 0 .15rem}
+.tid{font-size:2rem;font-weight:800;font-stretch:120%;line-height:1}
+.tag{display:inline-block;font-size:.82rem;font-weight:650;padding:.1rem .5rem;border-radius:.3rem;background:var(--bg);color:var(--muted)}
+.tag.ok{background:var(--ok-bg);color:var(--ok)}.tag.bad{background:var(--bad-bg);color:var(--bad)}.tag.warn{background:var(--warn-bg);color:#7a5a00}
+.actions{display:flex;gap:.4rem;flex-wrap:wrap;margin-top:.7rem}
+.card{background:var(--surface);border-radius:.6rem;padding:1rem 1.1rem;border:1px solid var(--line)}
+.card h3{margin-bottom:.2rem}
+.meter{height:.45rem;border-radius:1rem;background:var(--bg);overflow:hidden;margin:.6rem 0}
+.meter>span{display:block;height:100%;background:var(--sky)}
+dialog{border:0;border-radius:.8rem;padding:0;max-width:22rem;width:92vw}
+dialog::backdrop{background:rgba(11,26,44,.6)}
+.pass{padding:1.2rem;display:grid;gap:.7rem;justify-items:center;text-align:center}
+.pass textarea{font-size:.7rem}
+#qr{background:#fff;padding:.6rem;border-radius:.4rem}
+#qr img{display:block;width:230px;height:230px}
+#toast{position:fixed;left:50%;bottom:1.2rem;transform:translateX(-50%);background:var(--ink);color:#fff;padding:.7rem 1.1rem;border-radius:.5rem;max-width:90vw;opacity:0;pointer-events:none;transition:opacity .2s}
+#toast.show{opacity:1}
+@media (max-width:800px){.cols{grid-template-columns:1fr}.ticket{grid-template-columns:1fr}.ticket .stub{border-left:0;border-top:2px dashed var(--line);flex-direction:row;justify-content:space-between}.ticket::before,.ticket::after{display:none}}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}

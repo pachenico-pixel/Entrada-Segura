@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>EntradaSegura · Entradas que no se pueden falsificar</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,100..900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<header class="top">
+  <div class="brand">EntradaSegura</div>
+  <nav class="tabs" role="tablist" aria-label="Secciones">
+    <button class="tab active" data-tab="fan" role="tab">Hinchas</button>
+    <button class="tab" data-tab="org" role="tab">Organizador</button>
+    <button class="tab" data-tab="gate" role="tab">Acceso</button>
+  </nav>
+  <div class="wallet">
+    <span id="net" class="net" hidden></span>
+    <button id="connect" class="btn">Conectar billetera</button>
+  </div>
+</header>
+
+<main>
+  <!-- HINCHAS -->
+  <section id="tab-fan" class="panel active">
+    <div class="hero">
+      <h1>¿Tu entrada es de verdad?</h1>
+      <p class="lead">Cada entrada es un registro único en la blockchain. Una copia, una fotocopia o una entrada trucha simplemente no existe ahí.</p>
+      <form class="verify" id="verifyForm">
+        <label for="vId">Número de entrada</label>
+        <div class="row">
+          <input id="vId" inputmode="numeric" placeholder="Ej: 1" autocomplete="off">
+          <button class="btn primary" type="submit">Verificar</button>
+        </div>
+      </form>
+      <div id="verifyOut" class="verdict" hidden></div>
+    </div>
+
+    <div class="cols">
+      <div>
+        <h2>Partidos y eventos</h2>
+        <div id="events" class="stack"><p class="muted">Conectá tu billetera para ver los eventos.</p></div>
+      </div>
+      <div>
+        <div class="between"><h2>Mis entradas</h2><button id="faucet" class="btn small" hidden>Pedir 1.000 mUSDC de prueba</button></div>
+        <p id="bal" class="muted"></p>
+        <div id="tickets" class="stack"></div>
+        <h2>Reventa oficial</h2>
+        <p class="muted">Precio máximo: el de cara + 10%. El organizador recibe 5% de cada reventa.</p>
+        <div id="market" class="stack"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ORGANIZADOR -->
+  <section id="tab-org" class="panel">
+    <div class="cols">
+      <div>
+        <h2>Crear evento</h2>
+        <p class="muted">Necesitás el rol de organizador. Lo otorga el administrador.</p>
+        <form id="createForm" class="form">
+          <label>Nombre <input name="name" required placeholder="Despedida de Messi · Monumental"></label>
+          <label>Inicio <input name="start" type="datetime-local" required></label>
+          <label>Fin <input name="end" type="datetime-local" required></label>
+          <label>Precio por entrada (mUSDC) <input name="price" type="number" min="0.000001" step="any" required value="50"></label>
+          <label>Capacidad <input name="capacity" type="number" min="1" required value="100"></label>
+          <label>Máximo por persona <input name="maxPer" type="number" min="1" required value="4"></label>
+          <button class="btn primary" type="submit">Crear evento</button>
+        </form>
+      </div>
+      <div>
+        <h2>Mis eventos</h2>
+        <div id="myEvents" class="stack"></div>
+        <h2>Administrador</h2>
+        <form id="roleForm" class="form">
+          <label>Dirección <input name="addr" placeholder="0x…" required></label>
+          <label>Rol
+            <select name="role"><option value="ORGANIZER_ROLE">Organizador</option><option value="VALIDATOR_ROLE">Validador de acceso</option></select>
+          </label>
+          <button class="btn" type="submit">Otorgar rol</button>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <!-- ACCESO -->
+  <section id="tab-gate" class="panel">
+    <div class="narrow">
+      <h2>Control de acceso</h2>
+      <p class="muted">Pegá el pase que muestra el hincha. La firma prueba que quien lo presenta es el titular actual; cada entrada entra una sola vez.</p>
+      <form id="gateForm" class="form">
+        <label>Pase del hincha <textarea name="pass" rows="4" required placeholder='{"t":1,"d":1735689600,"s":"0x…"}'></textarea></label>
+        <button class="btn primary" type="submit">Registrar ingreso</button>
+      </form>
+      <div id="gateOut" class="verdict" hidden></div>
+    </div>
+  </section>
+</main>
+
+<dialog id="passDlg">
+  <div class="pass">
+    <h3 id="passTitle"></h3>
+    <div id="qr" aria-label="Código QR del pase"></div>
+    <p class="muted" id="passExp"></p>
+    <textarea id="passText" readonly rows="3"></textarea>
+    <div class="row">
+      <button class="btn small" id="copyPass">Copiar pase</button>
+      <button class="btn small" id="closePass">Cerrar</button>
+    </div>
+  </div>
+</dialog>
+<div id="toast" role="status" aria-live="polite"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/ethers@6.13.4/dist/ethers.umd.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/qrcode-generator@1.4.4/qrcode.js"></script>
+<script src="config.js"></script>
+<script src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,29 @@
+Problem executing hardhat: ◇ injected env (0) from .env
+◇ injected env (0) from .env
+
+INFO:Detectors:
+Detector: timestamp
+EventTicketing.createEvent(string,uint64,uint64,uint128,uint32,uint16) (contracts/EventTicketing.sol#357-383) uses timestamp for comparisons
+	Dangerous comparisons:
+	- startTime <= block.timestamp || endTime <= startTime || price == 0 || capacity == 0 || maxPerWallet == 0 (contracts/EventTicketing.sol#366-367)
+EventTicketing.cancelEvent(uint32) (contracts/EventTicketing.sol#390-398) uses timestamp for comparisons
+	Dangerous comparisons:
+	- block.timestamp >= ev.endTime (contracts/EventTicketing.sol#394)
+EventTicketing.withdrawProceeds(uint32) (contracts/EventTicketing.sol#406-419) uses timestamp for comparisons
+	Dangerous comparisons:
+	- block.timestamp <= availableAt (contracts/EventTicketing.sol#411)
+EventTicketing.buyTickets(uint32,uint16) (contracts/EventTicketing.sol#431-465) uses timestamp for comparisons
+	Dangerous comparisons:
+	- block.timestamp >= ev.startTime (contracts/EventTicketing.sol#435)
+EventTicketing.buyResale(uint256) (contracts/EventTicketing.sol#524-546) uses timestamp for comparisons
+	Dangerous comparisons:
+	- block.timestamp >= ev.endTime (contracts/EventTicketing.sol#532)
+EventTicketing.checkIn(uint256,uint256,bytes) (contracts/EventTicketing.sol#561-584) uses timestamp for comparisons
+	Dangerous comparisons:
+	- block.timestamp + CHECKIN_OPENS_BEFORE < ev.startTime || block.timestamp >= ev.endTime (contracts/EventTicketing.sol#571)
+	- block.timestamp > deadline (contracts/EventTicketing.sol#574)
+EventTicketing._requireTransferable(uint256,EventTicketing.TicketData) (contracts/EventTicketing.sol#668-676) uses timestamp for comparisons
+	Dangerous comparisons:
+	- block.timestamp >= ev.endTime (contracts/EventTicketing.sol#675)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#block-timestamp
+INFO:Slither:. analyzed (31 contracts with 102 detectors), 7 result(s) found
